@@ -21,6 +21,7 @@ import {AuthScreen} from "./screens/AuthScreen";
 import {RegistrationScreen} from "./screens/RegistrationScreen";
 import {ConnectionScreen} from "./screens/ConnectionScreen";
 import {TimerScreen} from "./screens/TimerScreen";
+import {ReviewScreen} from "./screens/ReviewScreen";
 
 const App = () => {
   return (
@@ -28,7 +29,8 @@ const App = () => {
     //   <AuthScreen/>
     //   <RegistrationScreen/>
     //   <ConnectionScreen/>
-      <TimerScreen/>
+    //   <TimerScreen/>
+      <ReviewScreen/>
     // </SafeAreaView>
   );
 };
