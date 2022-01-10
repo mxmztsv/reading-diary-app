@@ -7,14 +7,15 @@ import {Button} from "../components/Button";
 
 
 
-export const AuthScreen = () => {
+
+export const AuthScreen = ({ navigation }) => {
 
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
 
     return (
         <Screen>
-            <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={colors.PRIMARY} barStyle={'light-content'}/>
             <TitleWrapper>
                 {/*<Logo/>*/}
                 <Title>Выполните вход</Title>
@@ -46,7 +47,7 @@ export const AuthScreen = () => {
                         text="ВХОД"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Connection')}
                     />
                 </ButtonWrapper>
                 <ButtonWrapper>
@@ -54,7 +55,7 @@ export const AuthScreen = () => {
                         text="РЕГИСТРАЦИЯ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Registration')}
                     />
                 </ButtonWrapper>
             </ButtonsRow>

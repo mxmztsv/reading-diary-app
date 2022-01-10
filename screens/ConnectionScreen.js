@@ -7,13 +7,13 @@ import {Button} from "../components/Button";
 
 
 
-export const ConnectionScreen = () => {
+export const ConnectionScreen = ({ navigation }) => {
 
     const [parentID, setParentID] = useState(null);
 
     return (
         <Screen>
-            <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={colors.PRIMARY} barStyle={'light-content'}/>
             <TitleWrapper>
                 {/*<Logo/>*/}
                 <Title>Подключение</Title>
@@ -36,7 +36,7 @@ export const ConnectionScreen = () => {
                         text="ПОДКЛЮЧИТЬСЯ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Timer')}
                     />
                 </ButtonWrapper>
                 <ButtonWrapper>
@@ -44,7 +44,7 @@ export const ConnectionScreen = () => {
                         text="ПОЗЖЕ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Timer')}
                     />
                 </ButtonWrapper>
             </ButtonsRow>

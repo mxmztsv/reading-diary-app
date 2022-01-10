@@ -7,14 +7,14 @@ import {Button} from "../components/Button";
 
 
 
-export const RegistrationScreen = () => {
+export const RegistrationScreen = ({ navigation }) => {
 
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
 
     return (
         <Screen>
-            <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={colors.PRIMARY} barStyle={'light-content'}/>
             <TitleWrapper>
                 {/*<Logo/>*/}
                 <Title>Зарегистрируйтесь</Title>
@@ -46,7 +46,7 @@ export const RegistrationScreen = () => {
                         text="ВХОД"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Connection')}
                     />
                 </ButtonWrapper>
                 <ButtonWrapper>
@@ -54,7 +54,7 @@ export const RegistrationScreen = () => {
                         text="РЕГИСТРАЦИЯ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => Alert.alert('Simple Button pressed')}
+                        onPress={() => navigation.navigate('Connection')}
                     />
                 </ButtonWrapper>
             </ButtonsRow>

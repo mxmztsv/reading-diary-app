@@ -3,7 +3,9 @@ import {Screen} from "../components/Screen";
 import styled from 'styled-components/native';
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
-import {Alert} from "react-native";
+import {Alert, StatusBar} from "react-native";
+
+// todo: остановка таймера на goBack()
 
 export const TimerScreen = () => {
 
@@ -148,6 +150,7 @@ export const TimerScreen = () => {
 
     return (
         <Screen>
+            <StatusBar backgroundColor={colors.PRIMARY} barStyle={'light-content'}/>
             <TimerBlock>
                 {/*{("0" + Math.floor((time / 60000) % 60)).slice(-2)} : {("0" + Math.floor((time / 60000) % 60)).slice(-2)} : {("0" + Math.floor((time / 10) % 60)).slice(-2)}*/}
                 {(Math.floor(time / 3600))} : {(Math.floor(time / 60) % 3600)} : {(time % 60)}

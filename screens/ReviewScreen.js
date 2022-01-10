@@ -9,9 +9,9 @@ export const ReviewScreen = () => {
 
     const [title, setTitle] = useState('Капитанская дочка')
     const [author, setAuthor] = useState('А.С. Пушкин')
-    const [characters, setCharacters] = useState('')
-    const [plot, setPlot] = useState('')
-    const [review, setReview] = useState('')
+    const [characters, setCharacters] = useState(null)
+    const [plot, setPlot] = useState(null)
+    const [review, setReview] = useState(null)
 
     const submit = () => {
         console.log('characters', characters)
