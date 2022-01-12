@@ -26,7 +26,7 @@ export const AuthScreen = ({ navigation }) => {
                     {/*<FieldIcon>*/}
                         {/*<MaterialCommunityIcons name="account" size={25} color="#7f7f7f" />*/}
                     {/*</FieldIcon>*/}
-                    <LoginField placeholder={"Логин"} type="text" onChangeText={async (val) => {
+                    <InputField placeholder="Логин" type="text" onChangeText={async (val) => {
                         setLogin(val.toString())
                     }}/>
                 </LoginRow>
@@ -36,7 +36,7 @@ export const AuthScreen = ({ navigation }) => {
                     {/*<FieldIcon>*/}
                         {/*<MaterialCommunityIcons name="shield-key" size={25} color="#7f7f7f" />*/}
                     {/*</FieldIcon>*/}
-                    <PassField placeholder={'pass'} secureTextEntry={true} onChangeText={async (val) => {
+                    <InputField placeholder='Пароль' secureTextEntry={true} onChangeText={async (val) => {
                         setPassword(val.toString())
                     }}/>
                 </PassRow>
@@ -87,7 +87,7 @@ const Card = styled.View`
     background-color: #fff;
     padding: 10px 15px 10px 15px;
     margin: 10px 15px 5px 15px;
-    width: 90%;
+    width: 100%;
     border-radius: 5px;
 
 `;
@@ -102,10 +102,13 @@ const FieldIcon = styled.View`
     width: 10%;
 `;
 
-const LoginField = styled.TextInput`
+const InputField = styled.TextInput`
     align-items: center;
-    width: 90%;
+    width: 100%;
     color: ${colors.PRIMARY_TEXT};
+    border-width: 1.5px;
+    border-radius: 5px;
+    border-color: ${colors.SECONDARY};
 `;
 
 const PassRow = styled.View`

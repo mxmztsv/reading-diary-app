@@ -1,4 +1,5 @@
-export const BACKGROUND = '#e4eeee'
+// export const BACKGROUND = '#e4eeee'
+export const BACKGROUND = '#ffffff'
 export const PRIMARY = '#00796B'
 export const SECONDARY = '#4DB6AC'
 export const ACCENT = '#4DB6AC'

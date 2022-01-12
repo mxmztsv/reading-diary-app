@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components/native';
 import { TouchableHighlight, Text } from 'react-native';
 
-export const Button = ({text, color, textColor, onPress}) => {
+export const Button = ({text, color, textColor, onPress, active=true}) => {
 
     const buttonStyle = {
-        backgroundColor: `${color}`,
+        backgroundColor: `${active ? color : 'grey'}`,
         borderRadius: 5,
         paddingVertical: 10,
         paddingHorizontal: 12,

@@ -6,5 +6,6 @@ export const Screen = styled.View`
     justify-content: center;
     width: 100%;
     height: 100%;  
+    padding: 15px;
     background: ${colors.BACKGROUND};
 `;

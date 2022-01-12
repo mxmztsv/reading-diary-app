@@ -2,12 +2,35 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Linking, StatusBar, TouchableOpacity, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import * as colors from '../config/Colors'
-import {Button} from "../components/Button";
+// import {Button} from "../components/Button";
 
-export const ListItem = ({title, author, subtitle, onPress}) => {
+export const ListItem = ({title, author, subtitle, color, selectColor = color, onPress}) => {
+
+    const [selected, setSelected] = useState(true)
+    // const [background, setBackground] = useState(selected ? '#000' : '#fff')
+    const [background, setBackground] = useState(color)
+
+    const getColor = (selected) => {
+        if (selected) {
+            return selectColor
+        } else return color
+    }
+
+    const selectHandler = () => {
+        onPress()
+        setSelected(previousState => !previousState)
+        setBackground(getColor(selected))
+    }
 
     return (
-        <Card onPress={onPress}>
+        <TouchableOpacity onPress={
+            selectHandler
+        } style={{
+            borderBottomWidth: 1,
+            borderBottomColor: '#efefef',
+            paddingVertical: 12,
+            backgroundColor: background
+        }}>
             <TitleColumn>
                 <TitleWrapper>
                     <Title>{title} - {author}</Title>
@@ -18,7 +41,7 @@ export const ListItem = ({title, author, subtitle, onPress}) => {
             <ButtonWrapper>
 
             </ButtonWrapper>
-        </Card>
+        </TouchableOpacity>
     )
 }
 
@@ -26,10 +49,12 @@ const Card = styled.TouchableOpacity`
   flex-direction: row;
   align-self: center;
   background: white;
-  border-radius: 5px;
-  padding: 10px;
-  width: 95%;
-  margin-vertical: 3px;
+  border-radius: 0px;
+  border-bottom-width: 1px;
+  border-bottom-color: #efefef;
+  padding-vertical: 12px;
+  width: 100%;
+  margin-vertical: 0px;
 `
 
 const TitleColumn = styled.View`
