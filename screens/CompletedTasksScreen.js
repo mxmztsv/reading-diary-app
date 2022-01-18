@@ -12,15 +12,18 @@ export const CompletedTasksScreen = () => {
     const [countSelected, setCountSelected] = useState(0)
 
     useEffect(() => {
-        setTasksList(getCompletedTasksList())
+        const setData = async () => {
+            setTasksList(await getCompletedTasksList())
+        }
+        setData()
         setCountSelected(0)
     },[])
 
     const renderItem = ({ item }) => (
         <ListItem
-            title={item.title}
+            title={item.name}
             author={item.author}
-            subtitle={item.date}
+            subtitle={item.deadline}
             onPress={() => {selectTask(item)}}
             color={colors.BACKGROUND}
             selectColor={colors.SECONDARY}
@@ -65,7 +68,7 @@ export const CompletedTasksScreen = () => {
                     color={colors.POSITIVE}
                     textColor={colors.BTN_TEXT}
                     active={!!countSelected}
-                    onPress={() => {generateButtonHandler(tasksList)}}
+                    onPress={async () => {await generateButtonHandler(tasksList)}}
                 />
             </ButtonWrapper>
         </Screen>
@@ -113,7 +116,7 @@ const StatsTitleWrapper = styled.View`
     margin-bottom: 15px;
 `
 
-const ButtonWrapper = styled.View`
-    justify-content: center;
-    align-items: center;
-`
+    const ButtonWrapper = styled.View`
+        justify-content: center;
+        align-items: center;
+    `

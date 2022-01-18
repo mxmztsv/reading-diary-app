@@ -5,12 +5,21 @@ import * as colors from "../config/Colors";
 import {Button} from "../components/Button";
 import {Screen} from "../components/Screen";
 import {generateButtonHandler} from "../controllers/CompletedTasksController";
+import {getUserInfo, signOut} from "../controllers/AuthController";
 
 export const ProfileScreen = () => {
 
-    const [name, setName] = useState('Зайцев Максим Олегович')
-    const [id, setId] = useState(281745)
+    const [name, setName] = useState('')
+    const [id, setId] = useState('')
 
+    useEffect(() => {
+        const setData = async () => {
+            const userInfo = await getUserInfo()
+            setName(userInfo.name + ' ' + userInfo.middleName + ' ' + userInfo.surname)
+            setId(userInfo.id)
+        }
+        setData()
+    },[])
 
     return (
         <Screen>
@@ -23,7 +32,9 @@ export const ProfileScreen = () => {
                     text="ВЫХОД"
                     color={colors.POSITIVE}
                     textColor={colors.BTN_TEXT}
-                    onPress={() => {}}
+                    onPress={async () => {
+                        await signOut()
+                    }}
                 />
             </ButtonWrapper>
         </Screen>

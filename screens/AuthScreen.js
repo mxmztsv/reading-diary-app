@@ -4,11 +4,12 @@ import styled from 'styled-components/native';
 import {Screen} from "../components/Screen";
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
+import {signIn} from "../controllers/AuthController";
 
 
 
 
-export const AuthScreen = ({ navigation }) => {
+export const AuthScreen = ({ navigation, setIsSignedIn }) => {
 
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
@@ -47,7 +48,12 @@ export const AuthScreen = ({ navigation }) => {
                         text="ВХОД"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => navigation.navigate('Connection')}
+                        onPress={async () => {
+                            const userInfo = await signIn(login, password)
+                            if (userInfo) {
+                                navigation.navigate('Connection')
+                            }
+                        }}
                     />
                 </ButtonWrapper>
                 <ButtonWrapper>

@@ -1,30 +1,40 @@
 import {ListItem} from "../components/ListItem";
 import React from "react";
+import {request} from "./HttpController";
+import {getUserInfo} from "./AuthController";
 
-export const getTasksList = () => {
+export const getTasksList = async () => {
     // request
-    console.log('Sending request for a tasks...')
-    const data = [
-        {
-            'id': '123',
-            'title': 'Капитанская дочка',
-            'author': 'А.С. Пушкин',
-            'deadline': `${new Date()}`
-        },
-        {
-            'id': '456',
-            'title': 'Война и Мир',
-            'author': 'Лев Толстой',
-            'deadline': `${new Date()}`
-        },
-        {
-            'id': '789',
-            'title': 'Герой нашего времени',
-            'author': 'М.Ю. Лермонтов',
-            'deadline': `${new Date()}`
-        },
+    const userInfo = await getUserInfo()
+    console.log('userInfo', userInfo)
 
-    ]
+    console.log('Sending request for a tasks: id', userInfo.id)
+
+    const data = await request('/main/actual-tasks', {id: userInfo.id})
+    //
+    console.log('actual tasks list', data)
+
+    // const data = [
+    //     {
+    //         'id': '123',
+    //         'title': 'Капитанская дочка',
+    //         'author': 'А.С. Пушкин',
+    //         'deadline': `${new Date()}`
+    //     },
+    //     {
+    //         'id': '456',
+    //         'title': 'Война и Мир',
+    //         'author': 'Лев Толстой',
+    //         'deadline': `${new Date()}`
+    //     },
+    //     {
+    //         'id': '789',
+    //         'title': 'Герой нашего времени',
+    //         'author': 'М.Ю. Лермонтов',
+    //         'deadline': `${new Date()}`
+    //     },
+    //
+    // ]
     return data
 }
 

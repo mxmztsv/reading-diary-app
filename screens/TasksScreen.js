@@ -20,15 +20,20 @@ export const TasksScreen = ({ navigation }) => {
     const [tasksList, setTasksList] = useState([])
 
     useEffect(() => {
-        setTasksList(getTasksList())
+        // async () => {setTasksList( await getTasksList())}
+        const fetchData = async () => {
+            setTasksList(await getTasksList())
+        }
+        fetchData()
+        // setTasksList(getTasksList())
     },[])
 
     const renderItem = ({ item }) => (
         <ListItem
-            title={item.title}
+            title={item.name}
             author={item.author}
             subtitle={'До ' + item.deadline}
-            onPress={() => navigation.navigate('Details')}
+            onPress={() => navigation.navigate('Details', {item})}
         />
     );
 

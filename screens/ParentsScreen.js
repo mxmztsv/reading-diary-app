@@ -22,12 +22,15 @@ export const ParentsScreen = ({ navigation }) => {
     const [parents, setParents] = useState([])
 
     useEffect(() => {
-        setParents(getParents())
+        const setData = async () => {
+            setParents(await getParents())
+        }
+        setData()
     },[])
 
     const renderItem = ({ item }) => (
         <ParentItem
-            name={item.name}
+            name={item.surname + ' ' + item.name + ' ' + item.middleName}
             id={item.id}
             />
     );

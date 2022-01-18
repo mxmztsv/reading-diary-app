@@ -12,28 +12,40 @@ import {
 import * as colors from "../config/Colors";
 import styled from 'styled-components/native';
 import {Button} from "../components/Button";
-import {getStatistics} from "../controllers/DetailsScreenController";
+import {getStatisticsById} from "../controllers/DetailsScreenController";
 import {ListItem} from "../components/ListItem";
 import {FloatButton} from "../components/FloatButton";
 
-export const DetailsScreen = ({ navigation }) => {
+export const DetailsScreen = ({ navigation, route }) => {
+
+    const {item} = route.params
+
+    // console.log('item', item.author)
 
     const [details, setDetails] = useState({
-        title: 'Капитанская дочка',
-        author: 'А.С. Пушкин'
+        title: '',
+        author: '',
+        readingTaskId: ''
     })
 
     const [statistics, setStatistics] = useState([])
 
     useEffect(() => {
-        setStatistics(getStatistics())
+        const setData = async () => {
+            setDetails({
+                title: item.name,
+                author: item.author,
+                readingTaskId: item.id
+            })
+            setStatistics(await getStatisticsById(item.id))
+        }
+        setData()
     },[])
 
     const renderItem = ({ item }) => (
         <ListItem
-            title={item.date}
-            subtitle={item.startTime + ' - ' + item.endTime + ' (' + item.duration + ')'}
-            onPress={() => navigation.navigate('Details')}
+            title={'Дата: ' + item.date}
+            subtitle={item.readingStart + ' - ' + item.readingEnd + ' (' + item.duration + ')'}
         />
     );
 
@@ -49,7 +61,7 @@ export const DetailsScreen = ({ navigation }) => {
                         text="ЗАВЕРШИТЬ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => navigation.navigate('Review')}
+                        onPress={() => navigation.navigate('Review', {details})}
                     />
                 </ButtonWrapper>
             </TitleWrapper>
@@ -63,7 +75,7 @@ export const DetailsScreen = ({ navigation }) => {
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
-            <FloatButton text='+' textColor={colors.BTN_TEXT} color={colors.POSITIVE} onPress={() => navigation.navigate('Timer')}/>
+            <FloatButton text='+' textColor={colors.BTN_TEXT} color={colors.POSITIVE} onPress={() => navigation.navigate('Timer', item.id)}/>
         </Screen>
     )
 }

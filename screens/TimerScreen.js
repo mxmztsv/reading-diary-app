@@ -4,22 +4,22 @@ import styled from 'styled-components/native';
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
 import {Alert, StatusBar} from "react-native";
+import {commitReadingSession, getCurrentTime} from "../controllers/TimerController";
 
 // todo: остановка таймера на goBack()
 
-export const TimerScreen = () => {
+export const TimerScreen = ({ route }) => {
 
-    // const [timeFromStart, setTimeFromStart] = useState(0)
-    // const [hours, setHours] = useState(0)
-    // const [minutes, setMinutes] = useState(0)
-    // const [seconds, setSeconds] = useState(0)
-    // const [timerId, setTimerId] = useState()
-    // const [startTime, setStartTime] = useState()
-    // const [started, setStarted] = useState(false)
+    const [startTime, setStartTime] = useState()
+    const [endTime, setEndTime] = useState()
+    const [date, setDate] = useState()
 
     const [isActive, setIsActive] = useState(false);
     const [isPaused, setIsPaused] = useState(true);
     const [time, setTime] = useState(0);
+
+    const readingTaskId = route.params
+    // console.log('readingTaskId', readingTaskId)
 
     useEffect(() => {
         let interval = null;
@@ -41,15 +41,23 @@ export const TimerScreen = () => {
     const handleStart = () => {
         setIsActive(true);
         setIsPaused(false);
+        setDate(new Date())
+        setStartTime(getCurrentTime())
     };
 
     const handlePauseResume = () => {
         setIsPaused(!isPaused);
     };
 
-    const handleReset = () => {
+    // todo: правильный часовой пояс
+
+    const handleReset = async () => {
+        console.log('reading time: ', time)
+        setEndTime(getCurrentTime())
         setIsActive(false);
         setTime(0);
+        await commitReadingSession(readingTaskId, date, startTime, getCurrentTime())
+
     };
 
 

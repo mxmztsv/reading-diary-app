@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import {Screen} from "../components/Screen";
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
+import {connectToParentById} from "../controllers/AuthController";
 
 
 
@@ -25,8 +26,8 @@ export const ConnectionScreen = ({ navigation }) => {
                     {/*<FieldIcon>*/}
                     {/*<MaterialCommunityIcons name="account" size={25} color="#7f7f7f" />*/}
                     {/*</FieldIcon>*/}
-                    <LoginField placeholder={"Логин"} type="text" onChangeText={async (val) => {
-                        setLogin(val.toString())
+                    <LoginField placeholder={"ID"} type="text" onChangeText={async (val) => {
+                        setParentID(val.toString())
                     }}/>
                 </LoginRow>
             </Card>
@@ -36,7 +37,7 @@ export const ConnectionScreen = ({ navigation }) => {
                         text="ПОДКЛЮЧИТЬСЯ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => navigation.navigate('Timer')}
+                        onPress={() => connectToParentById(parentID)}
                     />
                 </ButtonWrapper>
                 <ButtonWrapper>
@@ -44,7 +45,7 @@ export const ConnectionScreen = ({ navigation }) => {
                         text="ПОЗЖЕ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => navigation.navigate('Timer')}
+                        onPress={() => navigation.navigate('Main')}
                     />
                 </ButtonWrapper>
             </ButtonsRow>

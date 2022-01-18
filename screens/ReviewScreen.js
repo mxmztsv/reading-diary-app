@@ -4,21 +4,24 @@ import styled from 'styled-components/native';
 import * as colors from '../config/Colors'
 import {Alert, Linking, StatusBar, TouchableOpacity, Platform, TextInput, ScrollView} from 'react-native';
 import {Button} from "../components/Button";
+import {submit} from "../controllers/ReviewScreenController";
 
-export const ReviewScreen = () => {
+export const ReviewScreen = ( { route } ) => {
 
-    const [title, setTitle] = useState('Капитанская дочка')
-    const [author, setAuthor] = useState('А.С. Пушкин')
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
     const [characters, setCharacters] = useState(null)
     const [plot, setPlot] = useState(null)
     const [review, setReview] = useState(null)
+    const [readingTaskId, setReadingTaskId] = useState(null)
 
-    const submit = () => {
-        console.log('characters', characters)
-        console.log('plot', plot)
-        console.log('review', review)
-    }
-
+    useEffect(() => {
+        const {details} = route.params
+        // console.log(details)
+        setTitle(details.title)
+        setAuthor(details.author)
+        setReadingTaskId(details.readingTaskId)
+    }, [])
 
     return (
         <Screen>
@@ -61,7 +64,7 @@ export const ReviewScreen = () => {
                     text="СОХРАНИТЬ"
                     color={colors.POSITIVE}
                     textColor={colors.BTN_TEXT}
-                    onPress={submit}
+                    onPress={async () => {await submit(readingTaskId, characters, plot, review)}}
                 />
             </ButtonWrapper>
             </ScrollView>
@@ -80,6 +83,9 @@ const TitleWrapper = styled.View`
 const InputBox = styled.View`
     flex-direction: column;
     margin-bottom: 15px;
+    border-radius: 5px;
+    border-color: aqua;
+    border-style: solid;
 `
 
 const Title = styled.Text`
@@ -128,8 +134,12 @@ const Screen = styled.View`
 const Input = styled.TextInput`
     color: ${colors.PRIMARY_TEXT};
     background: white;
-    border-radius: 5px;
     height: 100px;
+    border-radius: 5px;
+    border-color: ${colors.PRIMARY};
+    border-style: solid;
+    border-width: 1px;
+
 `
 
 
