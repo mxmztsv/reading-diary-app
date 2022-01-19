@@ -14,35 +14,36 @@ import {
 import * as colors from "../config/Colors";
 import {getTasksList} from "../controllers/TaskScreenController";
 import {ListItem} from "../components/ListItem";
-import {stringToDate} from "../services/DateService";
+import {getDiariesList, getDiaryById} from "../controllers/DiariesScreenController";
+import {stringToDate, stringToDateWithTime} from "../services/DateService";
 
 
-export const TasksScreen = ({ navigation }) => {
+export const DiariesScreen = ({ navigation }) => {
 
-    const [tasksList, setTasksList] = useState([])
+    const [diariesList, setDiariesList] = useState([])
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
-        // async () => {setTasksList( await getTasksList())}
         const fetchData = async () => {
-            setTasksList(await getTasksList())
+            setDiariesList(await getDiariesList())
         }
         fetchData()
-        // setTasksList(getTasksList())
     },[])
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
-        setTasksList(await getTasksList())
+        setDiariesList(await getDiariesList())
         setRefreshing(false)
     }, [])
 
     const renderItem = ({ item }) => (
         <ListItem
             title={item.name}
-            author={item.author}
-            subtitle={'До ' + stringToDate(item.deadline)}
-            onPress={() => navigation.navigate('Details', {item})}
+            subtitle={stringToDateWithTime(item.creationDate)}
+            onPress={async () => {
+                const path = await getDiaryById(item.id, item.name)
+                navigation.navigate('PdfView', {path})
+            }}
         />
     );
 
@@ -53,7 +54,7 @@ export const TasksScreen = ({ navigation }) => {
 
             <FlatList
                 style={{width: '100%'}}
-                data={tasksList}
+                data={diariesList}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 refreshControl={

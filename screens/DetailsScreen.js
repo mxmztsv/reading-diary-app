@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
     SafeAreaView,
     ScrollView,
@@ -7,7 +7,8 @@ import {
     Text,
     useColorScheme,
     View,
-    FlatList
+    FlatList,
+    RefreshControl
 } from 'react-native';
 import * as colors from "../config/Colors";
 import styled from 'styled-components/native';
@@ -15,6 +16,7 @@ import {Button} from "../components/Button";
 import {getStatisticsById} from "../controllers/DetailsScreenController";
 import {ListItem} from "../components/ListItem";
 import {FloatButton} from "../components/FloatButton";
+import {getTasksList} from "../controllers/TaskScreenController";
 
 export const DetailsScreen = ({ navigation, route }) => {
 
@@ -27,7 +29,7 @@ export const DetailsScreen = ({ navigation, route }) => {
         author: '',
         readingTaskId: ''
     })
-
+    const [refreshing, setRefreshing] = useState(false)
     const [statistics, setStatistics] = useState([])
 
     useEffect(() => {
@@ -41,6 +43,12 @@ export const DetailsScreen = ({ navigation, route }) => {
         }
         setData()
     },[])
+
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        setStatistics(await getStatisticsById(item.id))
+        setRefreshing(false)
+    }, [])
 
     const renderItem = ({ item }) => (
         <ListItem
@@ -74,6 +82,13 @@ export const DetailsScreen = ({ navigation, route }) => {
                 data={statistics}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[colors.PRIMARY]}
+                    />
+                }
             />
             <FloatButton text='+' textColor={colors.BTN_TEXT} color={colors.POSITIVE} onPress={() => navigation.navigate('Timer', item.id)}/>
         </Screen>

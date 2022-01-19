@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Alert, Linking, StatusBar, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import styled from 'styled-components/native';
 import {Screen} from "../components/Screen";
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
 import {signUp} from "../controllers/AuthController";
+import {AuthContext} from "../context";
 
 
 
@@ -16,6 +17,8 @@ export const RegistrationScreen = ({ navigation }) => {
     const [email, setEmail] = useState(null);
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
+
+    const context = useContext(AuthContext);
 
     return (
         <Screen>
@@ -81,7 +84,7 @@ export const RegistrationScreen = ({ navigation }) => {
                     {/*<FieldIcon>*/}
                     {/*<MaterialCommunityIcons name="shield-key" size={25} color="#7f7f7f" />*/}
                     {/*</FieldIcon>*/}
-                    <InputField placeholder={'pass'} secureTextEntry={true} onChangeText={async (val) => {
+                    <InputField placeholder={'Пароль'} secureTextEntry={true} onChangeText={async (val) => {
                         setPassword(val.toString())
                     }}/>
                 </PassRow>
@@ -92,8 +95,8 @@ export const RegistrationScreen = ({ navigation }) => {
                         text="РЕГИСТРАЦИЯ"
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
-                        onPress={() => {
-                            signUp(login, password, name, surname, middleName, email)
+                        onPress={async () => {
+                            await signUp(login, password, name, surname, middleName, email, context)
                             // navigation.navigate('Connection')
                         }}
                     />
@@ -111,6 +114,8 @@ const TitleWrapper = styled.View`
 
 const ButtonWrapper = styled.View`
     width: 100%;
+  align-items: center;
+  text-align: center;
 `
 
 const Title = styled.Text`
@@ -163,7 +168,7 @@ const ButtonsRow = styled.View`
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    width: 90%;
+    width: 100%;
     margin-top: 15px;
 `
 

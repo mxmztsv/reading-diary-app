@@ -5,6 +5,7 @@ import * as colors from "../config/Colors";
 import {ParentsScreen} from "./ParentsScreen";
 import {CompletedTasksScreen} from "./CompletedTasksScreen";
 import {ProfileScreen} from "./ProfileScreen";
+import {DiariesScreen} from "./DiariesScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,9 @@ export const MainScreen = () => {
             }}/>
             <Drawer.Screen name="Completed" component={CompletedTasksScreen} options={{
                 title: 'Прочитанные произведения',
+            }}/>
+            <Drawer.Screen name="Diaries" component={DiariesScreen} options={{
+                title: 'Дневники',
             }}/>
             <Drawer.Screen name="Profile" component={ProfileScreen} options={{
                 title: 'Профиль',

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {FlatList, ScrollView} from "react-native";
 import styled from "styled-components/native/dist/styled-components.native.esm";
 import * as colors from "../config/Colors";
@@ -6,11 +6,14 @@ import {Button} from "../components/Button";
 import {Screen} from "../components/Screen";
 import {generateButtonHandler} from "../controllers/CompletedTasksController";
 import {getUserInfo, signOut} from "../controllers/AuthController";
+import {AuthContext} from "../context";
 
 export const ProfileScreen = () => {
 
     const [name, setName] = useState('')
     const [id, setId] = useState('')
+
+    const context = useContext(AuthContext);
 
     useEffect(() => {
         const setData = async () => {
@@ -19,7 +22,7 @@ export const ProfileScreen = () => {
             setId(userInfo.id)
         }
         setData()
-    },[])
+    }, [])
 
     return (
         <Screen>
@@ -33,13 +36,13 @@ export const ProfileScreen = () => {
                     color={colors.POSITIVE}
                     textColor={colors.BTN_TEXT}
                     onPress={async () => {
-                        await signOut()
+                        await signOut(context)
                     }}
                 />
             </ButtonWrapper>
         </Screen>
     )
-}
+};
 
 const Avatar = styled.View`
     width: 120px;

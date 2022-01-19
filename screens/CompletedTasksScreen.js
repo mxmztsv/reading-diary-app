@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {FlatList, ScrollView} from "react-native";
+import React, {useCallback, useEffect, useState} from "react";
+import {FlatList, RefreshControl, ScrollView} from "react-native";
 import styled from "styled-components/native/dist/styled-components.native.esm";
 import * as colors from "../config/Colors";
 import {ListItem} from "../components/ListItem";
 import {generateButtonHandler, getCompletedTasksList} from "../controllers/CompletedTasksController";
 import {Button} from "../components/Button";
+import {getParents} from "../controllers/ParentsScreenController";
+import {stringToDate} from "../services/DateService";
 
 export const CompletedTasksScreen = () => {
 
     const [tasksList, setTasksList] = useState([])
     const [countSelected, setCountSelected] = useState(0)
+    const [refreshing, setRefreshing] = useState(false)
+
 
     useEffect(() => {
         const setData = async () => {
@@ -19,11 +23,18 @@ export const CompletedTasksScreen = () => {
         setCountSelected(0)
     },[])
 
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        setTasksList(await getCompletedTasksList())
+        setCountSelected(0)
+        setRefreshing(false)
+    }, [])
+
     const renderItem = ({ item }) => (
         <ListItem
             title={item.name}
             author={item.author}
-            subtitle={item.deadline}
+            subtitle={stringToDate(item.deadline)}
             onPress={() => {selectTask(item)}}
             color={colors.BACKGROUND}
             selectColor={colors.SECONDARY}
@@ -61,6 +72,13 @@ export const CompletedTasksScreen = () => {
                 data={tasksList}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[colors.PRIMARY]}
+                    />
+                }
             />
             <ButtonWrapper>
                 <Button

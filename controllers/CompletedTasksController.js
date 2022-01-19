@@ -1,6 +1,7 @@
 import {request} from "./HttpController";
 import {getUserInfo} from "./AuthController";
 import {BASE_URL} from "../config/API";
+import {ToastAndroid} from "react-native";
 
 export const getCompletedTasksList = async () => {
     // request
@@ -51,7 +52,9 @@ export const generateDiary = async (selectedTasksList) => {
 
         const userInfo = await getUserInfo()
         const studentId = userInfo.id
-        const name = `новый_дневник_${new Date()}`
+        // const name = `новый_дневник_${new Date()}`
+        const date = new Date()
+        const name = `reading_diary_${date.getDay()}-${date.getMonth()}-${date.getFullYear()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`
 
         const readingTasksId = selectedTasksList.map(item => {
             return item.id
@@ -65,7 +68,13 @@ export const generateDiary = async (selectedTasksList) => {
         const headers = {}
         headers['Content-Type'] = 'application/json'
         const method = 'POST'
-        const response = await fetch(BASE_URL + '/main/generate-diary', { method, body, headers })
+        let response
+        try {
+            response = await fetch(BASE_URL + '/main/generate-diary', { method, body, headers })
+            ToastAndroid.show("Дневник сформирован", ToastAndroid.SHORT);
+        } catch (e) {
+            ToastAndroid.show("Что-то пошло не так...", ToastAndroid.SHORT);
+        }
         // const response = await fetch(BASE_URL + '/main/diary', { method, headers })
         console.log('response', response)
     }

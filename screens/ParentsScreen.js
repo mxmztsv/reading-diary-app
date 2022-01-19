@@ -1,5 +1,5 @@
 import {Screen} from "../components/Screen";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
     SafeAreaView,
     ScrollView,
@@ -8,18 +8,19 @@ import {
     Text,
     useColorScheme,
     View,
-    FlatList
+    FlatList, RefreshControl
 } from 'react-native';
 import * as colors from "../config/Colors";
 import {ParentItem} from "../components/ParentItem";
 import {getParents} from "../controllers/ParentsScreenController";
 import {FloatButton} from "../components/FloatButton";
-
-//todo: навигация на подключение не работает
+import {getTasksList} from "../controllers/TaskScreenController";
 
 export const ParentsScreen = ({ navigation }) => {
 
     const [parents, setParents] = useState([])
+    const [refreshing, setRefreshing] = useState(false)
+
 
     useEffect(() => {
         const setData = async () => {
@@ -27,6 +28,12 @@ export const ParentsScreen = ({ navigation }) => {
         }
         setData()
     },[])
+
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        setParents(await getParents())
+        setRefreshing(false)
+    }, [])
 
     const renderItem = ({ item }) => (
         <ParentItem
@@ -44,9 +51,16 @@ export const ParentsScreen = ({ navigation }) => {
                 data={parents}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[colors.PRIMARY]}
+                    />
+                }
             />
 
-            <FloatButton text='+' textColor={colors.BTN_TEXT} color={colors.POSITIVE} onPress={() => navigation.navigate('Connect')}/>
+            <FloatButton text='+' textColor={colors.BTN_TEXT} color={colors.POSITIVE} onPress={() => navigation.navigate('Connection')}/>
         </Screen>
     )
 }

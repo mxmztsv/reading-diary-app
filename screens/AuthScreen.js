@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Alert, Linking, StatusBar, TouchableOpacity, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import {Screen} from "../components/Screen";
 import * as colors from '../config/Colors'
 import {Button} from "../components/Button";
 import {signIn} from "../controllers/AuthController";
+import {AuthContext} from "../context";
 
 
 
@@ -13,6 +14,8 @@ export const AuthScreen = ({ navigation, setIsSignedIn }) => {
 
     const [login, setLogin] = useState(null);
     const [password, setPassword] = useState(null);
+
+    const context = useContext(AuthContext);
 
     return (
         <Screen>
@@ -49,10 +52,11 @@ export const AuthScreen = ({ navigation, setIsSignedIn }) => {
                         color={colors.POSITIVE}
                         textColor={colors.BTN_TEXT}
                         onPress={async () => {
-                            const userInfo = await signIn(login, password)
-                            if (userInfo) {
-                                navigation.navigate('Connection')
-                            }
+                            // const userInfo = await signIn(login, password, context)
+                            await signIn(login, password, context)
+                            // if (userInfo) {
+                            //     navigation.navigate('Connection')
+                            // }
                         }}
                     />
                 </ButtonWrapper>

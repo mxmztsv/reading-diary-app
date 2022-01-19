@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import * as colors from '../config/Colors'
 // import {Button} from "../components/Button";
 
-export const ListItem = ({title, author, subtitle, color, selectColor = color, onPress = () => {}}) => {
+export const ListItem = ({title, author=null, subtitle, color, selectColor = color, onPress = () => {}}) => {
 
     const [selected, setSelected] = useState(true)
     // const [background, setBackground] = useState(selected ? '#000' : '#fff')
@@ -33,7 +33,9 @@ export const ListItem = ({title, author, subtitle, color, selectColor = color, o
         }}>
             <TitleColumn>
                 <TitleWrapper>
-                    <Title>{title} - {author}</Title>
+                    <Title>
+                        {author ? (title + ' - ' + author) : (title)}
+                    </Title>
                     {/*<Author>{author}</Author>*/}
                 </TitleWrapper>
                 <Subtitle>{subtitle}</Subtitle>
