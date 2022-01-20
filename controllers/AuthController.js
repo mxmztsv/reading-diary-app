@@ -37,7 +37,7 @@ export const signIn = async (login, password, authContext) => {
         try {
             response = await request('/account/sign-in', {login, password})
         } catch (e) {
-            ToastAndroid.show("Вход не удался", ToastAndroid.SHORT);
+            ToastAndroid.show(e.message, ToastAndroid.SHORT);
             return
         }
 
